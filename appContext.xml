@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+    <!--bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="appContext.properties" />
+	</bean-->
+    <bean id="testMvel" class="com.egar.test.TestMVEL"/>
+
+    <bean name="testJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="com.egar.test.TestJob" />
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="runMeTask" value-ref="testMvel" />
+            </map>
+	    </property>
+    </bean>
+
+    <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <!-- see the example of method invoking job above -->
+        <property name="jobDetail" ref="testJob" />
+        <!-- 0,5 second -->
+        <property name="startDelay" value="500" />
+        <!-- repeat every 30 seconds -->
+        <property name="repeatInterval" value="3000" />
+    </bean>
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <property name="triggers">
+        <list>
+            <ref bean="simpleTrigger" />
+        </list>
+    </property>
+</bean>
+</beans>

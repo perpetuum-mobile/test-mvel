@@ -1,0 +1,45 @@
+apply plugin: 'java'
+//apply plugin: 'war'
+
+group = 'com.egar.test'
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	compile
+}
+
+dependencies {
+    compile fileTree(dir: 'lib', include: '*.jar')
+}
+
+sourceSets {
+	main.java {
+		srcDir 'src'
+	}
+}
+
+compileJava.options.encoding = 'windows-1251'
+
+
+
+jar.enabled = true
+
+jar {
+	archiveName = 'MVELTest.jar'
+    manifest {
+        attributes('Implementation-Title': 'Gradle',
+                   'Implementation-Version': 3.2,
+                   'Main-Class': 'com.egar.test.TestMVEL',
+                   'Class-Path': getClassPath()
+        )
+    }
+}
+
+String getClassPath() {
+    String path = ''
+    configurations.compile.resolve().each {File file -> path += (file.name + ' ') }
+    return path
+}
