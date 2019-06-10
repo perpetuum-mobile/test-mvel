@@ -1,6 +1,8 @@
 package com.egar.test;
 
 /**
+comment!
+
  * User: nchebykina
  * Date: 23.08.12
  * Time: 11:51
