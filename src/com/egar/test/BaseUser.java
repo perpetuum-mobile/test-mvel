@@ -9,7 +9,7 @@ public class BaseUser {
     private String sex;
 
     public String getSex() {
-        return sex + "rrrr";
+        return sex + "rrrr" + "12345";
     }
 
     public void setSex(String sex) {
